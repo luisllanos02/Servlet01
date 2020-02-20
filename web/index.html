@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Hola mundo</div>
+        <input type="text" name="usuario" placeholder="usuario" id="user">
+        <input type="password" name="clave" placeholder="clave" id="pass">
+        <button onclick="logear()">Login</button>
+        <div id="rpta"></div><br>
+        <button onclick="consultar()">consultar</button>
+        <table  id="mytable" cellpadding="1" border="1" style="border-collapse:collapse;width:100%">
+            <tr>
+                <th>id</th>
+                <th>marca</th>
+                <th>precio</th>
+                <th>color</th>
+            </tr> 
+            <tr>
+              <td>67</td>
+              <td>Tico</td>
+              <td>2400</td>
+              <td>Amarillo</td>
+            </tr>
+            <tr>
+             <td>68</td>
+            <td>Ferrari</td>
+            <td>3800</td>
+            <td>rojo</td>   
+            </tr>
+        </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript">
+            function consultar(){
+                $.ajax({
+                    method: 'POST',
+                    url: 'Consulta',
+                    success: function (msg) {
+                        console.log(msg);
+                    },
+                    error: function (msg) {
+                        console.error(msg);
+                    }
+                }); 
+            }
+            
+            function logear() {
+                var usuario = document.getElementById("user").value;
+                var clave = document.getElementById("pass").value;
+                console.log('haciendo el login. ' + usuario + ' clave: ' + clave);
+                $.ajax({
+                    method: 'POST',
+                    url: 'MiServlet',
+                    data: {
+                        usuario: usuario,
+                        clave: clave
+                    },
+                    success: function (msg) {
+                        console.log(msg);
+                        document.getElementById("rpta").innerHTML = msg.rpta_msj;
+                    },
+                    error: function (msg) {
+                        console.error(msg);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
